@@ -1,3 +1,5 @@
+$brownColor : #560505;
+
 body {
   font-family: 'Sniglet', Arial, sans-serif;
   background : #19a4ae url('../images/bg.png');
@@ -38,8 +40,19 @@ body {
   .selector {
     margin: 0px 5px 5px;
     padding: 10px 15px;
-    background: #560505;
+    background: $brownColor;
     color: white;
     border-radius: 5px;
+  }
+}
+
+.submit {
+  font-size: 2rem;
+  padding: 7px 20px;
+  background: $brownColor;
+  @media screen and (min-width: 40.0625em) {
+    display: inline-block;
+    border-radius: 7px;
+    margin-top: 20px;
   }
 }
