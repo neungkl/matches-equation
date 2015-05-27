@@ -2,3 +2,4 @@ node_modules
 *.html
 src/*.css
 src/*.js
+src/public/

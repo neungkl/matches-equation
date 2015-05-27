@@ -1,0 +1,45 @@
+body {
+  font-family: 'Sniglet', Arial, sans-serif;
+  background : #19a4ae url('../images/bg.png');
+  color: #FFF;
+  padding: 70px 0px;
+  @media screen and (max-width: 40em) {
+    padding: 20px 0px;
+  }
+}
+
+.header {
+  font-size: 3rem;
+  text-shadow: 2px 2px 1px rgba(0,0,0,0.2);
+}
+
+.selector > div {
+  font-size: 3rem;
+  @media screen and (max-width: 40em) {
+    font-size: 2.5rem;
+  }
+}
+
+.selector > .selectable > div {
+  max-width: 100px;
+  margin: auto;
+  margin-bottom: 15px;
+  background: #EEE;
+  color: #0e676d;
+  border-radius: 7px;
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.reveal-modal {
+  color: #0e676d;
+  .selector {
+    margin: 0px 5px 5px;
+    padding: 10px 15px;
+    background: #560505;
+    color: white;
+    border-radius: 5px;
+  }
+}

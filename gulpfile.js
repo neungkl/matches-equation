@@ -27,7 +27,7 @@ gulp.task('js',function() {
     }))
     .pipe(coffeelint.reporter())
     .pipe(coffee())
-    .on('error',function(){});
+    .on('error',function(){ console.log("CoffeeScript syntax error."); });
   if( isMin )
     tmp.pipe(uglify());
   tmp
@@ -37,7 +37,7 @@ gulp.task('js',function() {
 });
 
 gulp.task('css',function() {
-  var tmp = gulp.src('./src/private/*.sass')
+  var tmp = gulp.src('./src/private/*.scss')
     .pipe( sass().on('error',sass.logError) );
 
   if( isMin )
@@ -53,7 +53,10 @@ gulp.task('css',function() {
 
 gulp.task('html',function() {
     var tmp = gulp.src('*.jade')
-      .pipe(jade())
+      .pipe(jade({
+        pretty: true
+      }))
+      .on('error',function(){ console.log("Jade syntax error."); })
       .pipe(gulp.dest('./'))
       .pipe(browserSync.reload({stream:true}));
 });
@@ -74,6 +77,6 @@ gulp.task('watch',function() {
   })
 
   gulp.watch(['./src/private/*.coffee'],['js']);
-  gulp.watch(['./src/private/*.less'],['css']);
+  gulp.watch(['./src/private/*.scss'],['css']);
   gulp.watch(['*.jade'],['html']);
 });

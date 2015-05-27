@@ -1,1 +1,79 @@
+doctype html
 html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport',content='width=device-width,initial-scale=1')
+    title Matches Equation
+    link(rel='stylesheet',href='https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/normalize.min.css',type='text/css')
+    link(rel='stylesheet',href='https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.min.css',type='text/css')
+    link(rel='stylesheet',href='http://fonts.googleapis.com/css?family=Sniglet',type='text/css')
+    link(rel='stylesheet',href='src/public/index.css',type='text/css')
+  body
+    section
+      div.row
+        div.col.text-center 
+          
+          div.header Matches Equation
+          
+          div(style='margin:20px 0px;') 
+            | custom the equation
+            br
+            | Click on box to select
+          
+          div(style='margin:15px 50px;')
+            div.row
+              div.col.selector
+                div.small-4.medium-3.columns.text-center.selectable
+                  div 
+                    a(href='#',data-reveal-id='select1') 0
+                div.small-4.medium-2.columns.text-center.selectable
+                  div +
+                div.small-4.medium-3.columns.text-center.selectable
+                  div
+                    a(href='#',data-reveal-id='select3') 0
+                div.small-6.medium-1.columns.text-center
+                  div =
+                div.small-6.medium-3.columns.text-center.selectable
+                  div
+                    a(href='#',data-reveal-id='select4') 0
+    
+    div#select1.reveal-modal.small.text-center(data-reveal,aria-labelledby='select1',aria-hidden='true',role='dialog')
+      div(style='font-size:1.5rem; margin-bottom:25px;') select first number
+      a.close-reveal-modal(aria-label="Close") &#215;
+      each n in [0,1,2,3,4,5,6,7,8,9,10]
+        div.small-6.medium-4.large-2.columns
+          div.selector= n
+        div.small-6.medium-4.large-2.columns
+    
+    div#select2.reveal-modal.small.text-center(data-reveal,aria-labelledby='select1',aria-hidden='true',role='dialog')
+      div(style='font-size:1.5rem; margin-bottom:25px;') select operator
+      a.close-reveal-modal(aria-label="Close") &#215;
+      each n in ['-','+']
+        div.small-6.medium-4.large-2.columns
+          div.selector= n
+        div.small-6.medium-4.large-2.columns
+    
+    div#select3.reveal-modal.small.text-center(data-reveal,aria-labelledby='select1',aria-hidden='true',role='dialog')
+      div(style='font-size:1.5rem; margin-bottom:25px;') select second number
+      a.close-reveal-modal(aria-label="Close") &#215;
+      each n in [0,1,2,3,4,5,6,7,8,9,10]
+        div.small-6.medium-4.large-2.columns
+          div.selector= n
+        div.small-6.medium-4.large-2.columns
+    
+    div#select4.reveal-modal.small.text-center(data-reveal,aria-labelledby='select1',aria-hidden='true',role='dialog')
+      div(style='font-size:1.5rem; margin-bottom:25px;') select result
+      a.close-reveal-modal(aria-label="Close") &#215;
+      each n in [0,1,2,3,4,5,6,7,8,9,10]
+        div.small-6.medium-4.large-2.columns
+          div.selector= n
+        div.small-6.medium-4.large-2.columns
+                  
+    | <!--[if lt IE 9]>
+    | <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    | <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+    | <script src="https://cdnjs.cloudflare.com/ajax/libs/css3pie/1.0.0/PIE.min.js"></script>
+    | <![endif]-->
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js')
+    script(src='src/public/index.js')
