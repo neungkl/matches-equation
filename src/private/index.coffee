@@ -2,7 +2,7 @@ window.game = do ->
   ret = {}
 
   canvas = null
-  data = [0,true,0,0,1]
+  data = [3,true,4,5,1]
 
   numbervisible = [
     [1,0,1,1,1,1,1],
@@ -18,6 +18,14 @@ window.game = do ->
   ]
 
   matchesPos = []
+  matchesObj = []
+
+  pairAnimate = []
+
+  timer =
+    time : 0
+    type : -1
+    data : {}
 
   drawDigit = (x,y,n = 0) ->
     padding = 8
@@ -31,6 +39,7 @@ window.game = do ->
       raster.position = new paper.Point( x+p[0]+50,y+p[1]+12.5 )
       if numbervisible[n][i] == 0
         raster.visible = false
+      matchesObj.push raster
 
     return
 
@@ -41,6 +50,7 @@ window.game = do ->
     raster = new paper.Raster('src/images/matches.png')
     raster.scaling = 0.5
     raster.position = new paper.Point( x,y )
+    matchesObj.push raster
 
     raster = new paper.Raster('src/images/matches.png')
     raster.scaling = 0.5
@@ -48,6 +58,7 @@ window.game = do ->
     raster.position = new paper.Point( x,y )
     if !data[1]
       raster.visible = false
+    matchesObj.push raster
 
     return
 
@@ -64,13 +75,14 @@ window.game = do ->
   drawDigital = ->
 
     paper.project.activeLayer.removeChildren()
+    matchesPos = []
+    matchesObj = []
 
     drawDigit( 15,10,data[0] )
     drawOperator(220,150);
     drawDigit( 315,10,data[2] )
     drawEqual( 520,150 )
     drawDigit( 615,10,data[3] )
-    console.log matchesPos
 
     paper.view.draw()
 
@@ -79,15 +91,32 @@ window.game = do ->
     paper.setup( canvas )
     paper.view.viewSize = new paper.Size( 800,300 )
 
-    paper.view.onResize = (e) ->
-      paper.view.viewSize = new Size( 800,300 )
+    width = $(".canvas-wrapper").innerWidth()
+    $("#mainCanvas").css({width:width,height:width/800*300});
 
     drawDigital()
+
+    paper.view.onFrame = (evt) ->
+      if timer.type == -1
+        return
+      else if timer.type == 1
+        timer.time += evt.delta
+        ratio = 1 - timer.time
+        for p in pairAnimate
+          #console.log p,matchesObj[p[1]],matchesObj[p[0]]
+          matchesObj[p[1]].position.x += ( matchesObj[p[0]].position.x - matchesObj[p[1]].position.x )/20
+          matchesObj[p[1]].position.y += ( matchesObj[p[0]].position.y - matchesObj[p[1]].position.y )/20
+          matchesObj[p[1]].rotation += ( matchesObj[p[0]].rotation - matchesObj[p[1]].rotation )/20
+          if ( Math.abs(matchesObj[p[1]].rotation - matchesObj[p[0]].rotation ) < 0.1 and \
+          Math.abs(matchesObj[p[1]].position.x - matchesObj[p[0]].position.x) < 0.1 and \
+          Math.abs(matchesObj[p[1]].position.y - matchesObj[p[0]].position.y) < 0.1 )
+            timer.type = -1
 
     return
 
   ret.setData = (n,v,up = false) ->
     data[n] = v
+    timer.type = -1
     if up
       drawDigital()
 
@@ -106,21 +135,74 @@ window.game = do ->
     for q,i in numbervisible[b]
       if q != numbervisible[bb][i]
         diff++
-        sym += q - numbervisible[aa][i]
+        sym += q - numbervisible[bb][i]
     for q,i in numbervisible[c]
       if q != numbervisible[cc][i]
         diff++
-        sym += q - numbervisible[aa][i]
+        sym += q - numbervisible[cc][i]
     if ( data[1] == true and p != 1 ) or ( data[1] == false and p != 2 )
-       diff++
-       sym += if p == 1 then 1 else -1
+      diff++
+      sym += ( if p == 1 then 1 else -1 )
 
     #console.log( a,p,b,c,data,diff,sym )
     if diff == data[4]*2 and sym == 0
-      console.log( a,p,b,c )
-      return false
+      console.log( a,p,b,c,diff,sym )
+      return true
     else
       return false
+
+  pairing = ( a,p,b,c ) ->
+    id = 0
+    first = 0
+    second = 0
+    ret = ( [-1,-1] for i in [1..(data[4])] )
+    aa = data[0]
+    bb = data[2]
+    cc = data[3]
+
+    console.log ret
+
+    for q,i in numbervisible[a]
+      if q != numbervisible[aa][i]
+        if q == 1
+          ret[first++][0] = id
+        else
+          ret[second++][1] = id
+      id++
+
+
+    id += 2
+    if ( data[1] == true and p != 1 ) or ( data[1] == false and p != 2 )
+      if p == 1
+        ret[first++][0] = id-1
+      else
+        ret[second++][1] = id-1
+
+    for q,i in numbervisible[b]
+      if q != numbervisible[bb][i]
+        if q == 1
+          ret[first++][0] = id
+        else
+          ret[second++][1] = id
+      id++
+
+    for q,i in numbervisible[c]
+      if q != numbervisible[cc][i]
+        if q == 1
+          ret[first++][0] = id
+        else
+          ret[second++][1] = id
+      id++
+
+    pairAnimate = ret
+    return
+
+  animate = () ->
+    $(document).scrollTop $("#mainCanvas").scrollTop()
+    drawDigital()
+    timer.time = 0
+    timer.type = 1
+    return
 
   ret.findSolution = () ->
     for first in [0..9]
@@ -129,10 +211,14 @@ window.game = do ->
           if operator == 1
             if first + second >= 0 and first + second < 10
               if check( first,operator,second )
+                pairing( first,operator,second,first+second )
+                animate()
                 return
           else
             if first - second >= 0 and first - second < 10
               if check( first,operator,second )
+                pairing( first,operator,second,first-second )
+                animate()
                 return
 
   ret
@@ -146,7 +232,7 @@ $(->
     $('#'+elm+" .selector").click do ()->
       ()->
         $("#"+elm).foundation('reveal','close')
-        $(".selectable a[data-reveal-id='"+elm+"']").text $(this).text()
+        $(".selectable a[data-reveal-id='"+elm+"'] > div").text $(this).text()
         if $.inArray( elm,['select1','select3','select4'] ) != -1
           if elm == 'select1'
             nn = 0

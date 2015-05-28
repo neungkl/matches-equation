@@ -15,7 +15,8 @@ html
           
           div.header Matches Equation
           
-          canvas#mainCanvas.show-for-medium-up(resize,style='margin:auto')
+          div.canvas-wrapper
+            canvas#mainCanvas(resized,style='margin:auto')
           
           div(style='margin:20px 0px;') 
             | custom the equation
@@ -26,29 +27,29 @@ html
             div.row
               div.col.selector
                 div.small-4.medium-3.columns.text-center.selectable
-                  div 
-                    a(href='#',data-reveal-id='select1') 0
+                  a(href='#',data-reveal-id='select1')
+                    div 3
                 div.small-4.medium-2.columns.text-center.selectable
-                  div
-                    a(href='#',data-reveal-id='select2') +
+                  a(href='#',data-reveal-id='select2')
+                    div +
                 div.small-4.medium-3.columns.text-center.selectable
-                  div
-                    a(href='#',data-reveal-id='select3') 0
+                  a(href='#',data-reveal-id='select3')
+                    div 4
                 div.small-12.medium-1.columns.text-center
                   div =
                 div.small-12.medium-3.columns.text-center.selectable
-                  div
-                    a(href='#',data-reveal-id='select4') 0
+                  a(href='#',data-reveal-id='select4')
+                    div 5
           
           div(style='margin:20px 0px;')
             | Select number of movable matches
             div.text-center.selector(style='margin-top:20px;')
               div.selectable 
-                div 
-                  a(href='#',data-reveal-id='select5') 1
+                a(href='#',data-reveal-id='select5')
+                  div 1
           
-          
-          div.submit Find solution
+          a(href='#',onclick='game.findSolution()',style='color:white;')
+            div.submit Find solution
     
     div#select1.reveal-modal.medium.text-center(data-reveal,aria-labelledby='select1',aria-hidden='true',role='dialog')
       div(style='font-size:1.5rem; margin-bottom:25px;') select first number
@@ -85,7 +86,7 @@ html
     div#select5.reveal-modal.medium.text-center(data-reveal,aria-labelledby='select1',aria-hidden='true',role='dialog')
       div(style='font-size:1.5rem; margin-bottom:25px;') select movable matches
       a.close-reveal-modal(aria-label="Close") &#215;
-      each n in [1,2,3]
+      each n in [1,2,3,4,5,6]
         div.small-6.medium-4.large-2.columns
           div.selector= n
       div.small-6.medium-4.large-2.columns
