@@ -38,6 +38,7 @@ body {
 .reveal-modal {
   color: #0e676d;
   .selector {
+    cursor: pointer;
     margin: 0px 5px 5px;
     padding: 10px 15px;
     background: $brownColor;
