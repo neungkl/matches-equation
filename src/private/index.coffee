@@ -78,6 +78,8 @@ window.game = do ->
     matchesPos = []
     matchesObj = []
 
+    $("#alerter").slideUp()
+
     drawDigit( 15,10,data[0] )
     drawOperator(220,150);
     drawDigit( 315,10,data[2] )
@@ -86,12 +88,17 @@ window.game = do ->
 
     paper.view.draw()
 
+  ret.refresh = ->
+    timer.type = -1
+    drawDigital()
+
   ret.initial = ->
     canvas = $("#mainCanvas")[0]
     paper.setup( canvas )
     paper.view.viewSize = new paper.Size( 800,300 )
 
     width = $(".canvas-wrapper").innerWidth()
+    width = Math.min( width,800 )
     $("#mainCanvas").css({width:width,height:width/800*300});
 
     drawDigital()
@@ -202,6 +209,7 @@ window.game = do ->
     drawDigital()
     timer.time = 0
     timer.type = 1
+    $("#alerter").html("<div onclick='game.refresh()' style='cursor:pointer;'>refresh</div>").slideDown()
     return
 
   ret.findSolution = () ->
@@ -220,6 +228,10 @@ window.game = do ->
                 pairing( first,operator,second,first-second )
                 animate()
                 return
+
+    $("#alerter")
+      .html("<div style='color:#d51515; font-size:1.3rem; margin:15px 0px; text-shadow: 1px 1px 0px rgba(0,0,0,0.1);'>No possible solution</div>").slideDown()
+    return
 
   ret
 
