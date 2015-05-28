@@ -230,7 +230,7 @@ window.game = do ->
                 return
 
     $("#alerter")
-      .html("<div style='color:#d51515; font-size:1.3rem; margin:15px 0px; text-shadow: 1px 1px 0px rgba(0,0,0,0.1);'>No possible solution</div>").slideDown()
+      .html("<div style='color:white; background:#c40f0f; padding:7px 20px; border-radius:5px; display:inline-block; font-size:1.1rem; margin:15px 0px;'>No possible solution</div>").slideDown()
     return
 
   ret
