@@ -259,5 +259,12 @@ $(->
           game.setData 4,parseInt( $(this).text() ),true
         return
 
+  $(window).resize () ->
+    width = $(".canvas-wrapper").innerWidth()
+    width = Math.min( width,800 )
+    $("#mainCanvas").css({width:width,height:width/800*300});
+
+    game.refresh()
+
   game.initial()
 )
