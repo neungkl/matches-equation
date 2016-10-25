@@ -1,6 +1,6 @@
 # Matches Equation Solver
 
-![Matches Equation Solver](preview.png)
+<img src="preview.png" width="600">
 
 An automatic solver for matches equation developer be me in my freetime.
 
