@@ -8,8 +8,8 @@ This is website to take you any question for basic mathematic equation. (Maybe w
 Then, convert equation to matches.
 Aftherthat, program try to find any possible to move the matches to the correct mathematic equation.
 
-Follow the demo here : [http://project.neungkl.com/matches-equation/](http://project.neungkl.com/matches-equation/)
+Follow the demo here : [http://kosate.com/project/matches-equation/](http://kosate.com/project/matches-equation/)
 
-###How to build
+### How to build
 1. npm install
 2. gulp build
